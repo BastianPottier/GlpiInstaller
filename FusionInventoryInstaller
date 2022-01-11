@@ -51,7 +51,7 @@ systemctl restart fusioninventory-agent
 
 fusioninventory-agent
 
-echo "voila normalement ça marche sinon vous pouvez vous pleindre à Bastian cet enculé de ses morts"
+echo "fini"
 
 
 
