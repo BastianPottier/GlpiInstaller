@@ -1,0 +1,61 @@
+#!/bin/bash
+
+if [ "$EUID" -ne 0 ]
+  then echo "Il faut lancer en root"
+  exit
+fi
+
+apt -y install dmidecode hwdata ucf hdparm
+apt -y install perl libuniversal-require-perl libwww-perl libparse-edid-perl
+apt -y install libxml-treepp-perl libyaml-perl libnet-cups-perl libnet-ip-perl
+apt -y install libdigest-sha-perl libsocket-getaddrinfo-perl libtext-template-perl
+apt -y install libxml-xpath-perl libyaml-tiny-perl
+apt -y install libnet-snmp-perl libcrypt-des-perl libnet-nbname-perl
+apt -y install libsnmp-perl snmp nmap php-snmp
+apt -y install libdigest-hmac-perl
+apt -y install libfile-copy-recursive-perl libparallel-forkmanager-perl
+
+
+
+wget https://github.com/fusioninventory/fusioninventory-agent/releases/download/2.5.2/fusioninventory-agent_2.5.2-1_all.deb
+
+wget https://github.com/fusioninventory/fusioninventory-agent/releases/download/2.5.2/fusioninventory-agent-task-collect_2.5.2-1_all.deb
+
+wget https://github.com/fusioninventory/fusioninventory-agent/releases/download/2.5.2/fusioninventory-agent-task-network_2.5.2-1_all.deb
+
+wget https://github.com/fusioninventory/fusioninventory-agent/releases/download/2.5.2/fusioninventory-agent-task-deploy_2.5.2-1_all.deb
+
+wget https://github.com/fusioninventory/fusioninventory-agent/releases/download/2.5.2/fusioninventory-agent-task-esx_2.5.2-1_all.deb
+
+echo "agents installé"
+
+dpkg -i fusioninventory-agent_2.5.2-1_all.deb
+
+dpkg -i fusioninventory-agent-task-collect_2.5.2-1_all.deb
+
+dpkg -i fusioninventory-agent-task-network_2.5.2-1_all.deb
+
+dpkg -i fusioninventory-agent-task-deploy_2.5.2-1_all.deb
+
+dpkg -i fusioninventory-agent-task-esx_2.5.2-1_all.deb
+
+echo "installation faites "
+
+
+echo "entrez l'adresse ip de votre serveur glpi"
+read IpGlpi
+
+sed -i "s/# server =.*/server = http:\\/\\/$IpGlpi\\/glpi\\/plugins\\/fusioninventory/" /etc/fusioninventory/agent.cfg
+
+systemctl restart fusioninventory-agent
+
+fusioninventory-agent
+
+echo "voila normalement ça marche sinon vous pouvez vous pleindre à Bastian cet enculé de ses morts"
+
+
+
+
+
+
+
